@@ -17,10 +17,10 @@ class Promo:
 @dataclass
 class Cart:
     cart: list = field(default_factory=list)  # [products]
-    summa: float = field(init=False, default=0) # total sum
+    summa: float = field(init=False, default=0)  # total sum
     discount: (int, float) = field(init=False, default=0)  # applied discount
     code_discount: (int, float) = field(init=False, default=0)  # applied promocode discount
-    last_disc: bool = False # whether the last applied discount was a regular discount
+    last_disc: bool = False  # whether the last applied discount was a regular discount
     last_code: bool = False  # whether the last applied discount was a promocode discount
 
     def add_product(self, product, amount: int = 1):
@@ -62,8 +62,8 @@ class Cart:
                     self.code_discount = promo.code_discount / 100
                     if promo.product_list:
                         products_for_promo_sum = 0  # sum for promocode discount
-                        for prod1 in promo.product_list: # products for promocode discount
-                            for prod2 in self.cart: # compare to the products in the cart
+                        for prod1 in promo.product_list:  # products for promocode discount
+                            for prod2 in self.cart:  # compare to the products in the cart
                                 if prod1 == prod2:
                                     products_for_promo_sum += prod1.price
                         self.summa -= (self.code_discount * products_for_promo_sum)
@@ -80,6 +80,8 @@ class Cart:
         self.summa = self.summa / (1 - self.code_discount)
         self.last_code = False
 
+
+# Example
 
 book = Product('Книга', 100.0)
 usb = Product('Флешка', 50.0)
@@ -101,6 +103,5 @@ cart.add_product(pen, 2)
 
 print(cart.get_total())
 
-# Применение промокода в 50% на книги и флешки
 cart.apply_promo('sale')
 print(cart.get_total())
